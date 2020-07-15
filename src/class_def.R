@@ -10,7 +10,7 @@ simMetric = function(orig.labels, pred.labels, pred.probs,
     
     # initialize the class via list object using provided arguments
     obj = list(orig.labels = orig.labels, pred.labels = pred.labels, 
-               pred.probs = pred.probs, bins = bins, case = case)
+               pred.probs = pred.probs, case = case, bins = bins)+
     
     attr(obj, "class") = "simMetric" # sets the class
     
@@ -22,7 +22,7 @@ simMetric = function(orig.labels, pred.labels, pred.probs,
     obj$pred_01 = standardizeLabels(pred.labels, case)
     
     # define sample size and bin case sizes
-    obj$sample.size = calc_samplesize(obj$pred_01, bins)
+    obj$sample.size = calc_samplesize(obj$orig_01, bins)
     obj$bin.caseSizes = round(bins*obj$sample.size)
     
     return(obj)
@@ -49,8 +49,11 @@ param_check = function(orig.labels, pred.labels, pred.probs, case, bins){
     if(length(pred.labels) != length(pred.probs))
         stop('Length of \'pred.labels\' does not match length of \'pred.probs\'.')
     
-    if(!case %in% labels)
-        stop('Value of \'case\' is not present in \'labels\'.')
+    if(!case %in% orig.labels)
+        stop('Value of \'case\' is not present in \'orig.labels\'.')
+    
+    if(!case %in% pred.labels)
+        stop('Value of \'case\' is not present in \'pred.labels\'.')
     
     if(!is.numeric(bins))
         stop('\'bins\' is non-numeric.')
@@ -96,7 +99,7 @@ auc.simMetric = function(obj){
     # define variables to reduce code clutter
     pred.probs = obj$pred.probs
     bins = obj$bins
-    labels_01 = obj$pred_01 # necessary for proper functionality of roc()
+    labels_01 = obj$orig_01 # necessary for proper functionality of roc()
     samp_size = obj$sample.size
     cases_list = obj$bin.caseSizes
     
@@ -164,7 +167,7 @@ f1.simMetric = function(obj){
     
     ### indices with predicted case label
     ### ensures correspondence of labels after subsetting
-    case_i = which(pred == 1)
+    case_i = which(orig == 1)
     
     ### subset labels for case
     orig_case = orig[case_i]

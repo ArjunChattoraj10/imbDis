@@ -2,31 +2,42 @@
 
 # Ensure presence of file dependencies
 source("train_test.R")
+source("class_def.R")
 
 library(caret)
 
 set.seed(225)
 
-tc = trainControl(method = "cv", number = )
-rf = train(y ~ ., data = train_dat, method = "rf", 
-           trControl = trainControl(method = "cv"))
+# random forest with 7 predictors
+tc = trainControl(method = "cv", number = 10)
+RF_7 = train(factor(y) ~ x1+x2+x3+x4+x5+x6+x7, data = train_dat, method = "rf", trControl = tc)
 
-# Scoring metrics
+# random forest with all predictors
+RF_all = train(factor(y) ~ ., data = train_dat, method = "rf", trControl = tc)
 
-predsRF_01 = predict(rf$finalModel, test_dat)
+# obtain predicted probabilities and labels - 7 preds
+preds_RF_7 = predict(RF_7$finalModel, test_dat, type = "prob")[,2]
+labs_RF_7 = predict(RF_7$finalModel, test_dat) # random forest voting labels
 
-# Confusion Matrix
+# obtain predicted probabilities and labels - all preds
+preds_RF_all = predict(RF_all$finalModel, test_dat, type = "prob")[,2]
+labs_RF_all = predict(RF_all$finalModel, test_dat) # random forest voting labels
 
-conmatRF = confusionMatrix(predsRF_01, test_dat$y); conmatRF
+# save the files to csv
+res_RF = data.frame(test_dat$y, preds_RF_7, labs_RF_7, preds_RF_all, labs_RF_all)
+names(res_RF)[1] = "orig"
+write.csv(res_RF, "../data/res_RF.csv", row.names = FALSE)
 
-## Brier Score
+# Define classes
+SM_RF_7 = simMetric(test_dat$y, labs_RF_7, preds_RF_7, 1)
+SM_RF_all = simMetric(test_dat$y, labs_RF_all, preds_RF_all, 1)
 
-## F1 score
+# c-statistic and F1 for 7 preds RF
+auc.simMetric(SM_RF_7)
+f1.simMetric(SM_RF_7)
 
-precisionRF = conmatRF$byClass["Pos Pred Value"]
-recallRF = conmatRF$byClass["Sensitivity"]
+# c-statistic and F1 for all preds RF
+auc.simMetric(SM_RF_all)
+f1.simMetric(SM_RF_all)
 
-F1_RF = 2*precisionRF*recallRF/(precisionRF + recallRF); as.numeric(F1_RF)
-
-## C-statistic
 
