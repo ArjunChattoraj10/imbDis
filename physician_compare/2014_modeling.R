@@ -30,7 +30,8 @@ nrow(pres_nex_ny_gastro)
 joined = inner_join(pres_nex_ny_gastro[c("npi", "drug_name", "generic_name", "specialty")], 
                     pres_summary, by = "npi")
 
-joined$zip3 = substr(joined$nppes_provider_zip5, 1, 3)
+joined$zip3 = factor(substr(joined$nppes_provider_zip5, 1, 3)) #set as factor, 100 set as base
+joined$nppes_provider_gender = factor(joined$nppes_provider_gender) #set as factor, F as base
 
 summary(joined$beneficiary_average_risk_score) # 12 NAs
 joined_clean = joined[!is.na(joined$beneficiary_average_risk_score),] #removes all rows with NA risk score
@@ -39,24 +40,12 @@ summary(joined_clean$beneficiary_dual_count) # 392 NAs -- may need a better way 
 joined_clean$beneficiary_dual_count = replace_na(joined_clean$beneficiary_dual_count, 0)
 joined_clean$beneficiary_nondual_count = replace_na(joined_clean$beneficiary_nondual_count, 0)
 
+# train-test split - 70/30
+set.seed(625)
+p = 0.7 
+train_i = sample(nrow(joined_clean), p*nrow(joined_clean))
+train_dat = joined_clean[train_i,]
+test_dat = joined_clean[-train_i,]
 
-LR = glm(specialized ~ beneficiary_average_risk_score + average_age_of_beneficiaries +
-             zip3 + , 
-    data = joined, family = "binomial")
 
-source("class_def.R")
-
-preds = predict(LR, test_dat, type = "response")
-
-SM_LR = simMetric(test_dat$specialized, preds, 1, seq(0.05,0.5,0.05))
-
-auc.simMetric(SM_LR)
-brier.simMetric(SM_LR)
-
-DT = train(specialized ~ `Average HCC Risk Score of Beneficiaries` + 
-               `Average Age of Beneficiaries` + total_drug_cost_perK + 
-               `Gender of the Provider` + zipcode3 + 
-               total_charge_per10K + total_beneficiaries + 
-               `Number of Male Beneficiaries` + `Number of Female Beneficiaries`, 
-           data = train_dat, method = "rpart") # Error uh
 
