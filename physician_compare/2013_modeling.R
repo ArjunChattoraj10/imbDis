@@ -54,13 +54,26 @@ LR = glm(specialty ~ beneficiary_average_risk_score + average_age_of_beneficiari
              nppes_provider_gender + total_claim_count + bene_count, 
     data = train_dat, family = "binomial")
 
-preds = predict(LR, test_dat, type = "response")
+preds_LR = predict(LR, test_dat, type = "response")
 
 # use simMetric class
 source("../src/class_def.R")
 
-SM_LR = simMetric(test_dat$specialty, preds, 1, seq(0.05,0.5,0.05))
+SM_LR = simMetric(test_dat$specialty, preds_LR, 1, seq(0.05,0.5,0.05))
 
 auc.simMetric(SM_LR)
 brier.simMetric(SM_LR)
+
+# define decision tree
+DT = train(factor(specialty) ~ beneficiary_average_risk_score + average_age_of_beneficiaries +
+               zip3 + beneficiary_dual_count + beneficiary_nondual_count + total_drug_cost +
+               nppes_provider_gender + total_claim_count + bene_count, 
+           data = train_dat, method = "rpart")
+
+preds_DT = predict(DT$finalModel, test_dat) # ZIPCODE MISSING ERROR
+
+SM_DT = simMetric(test_dat$specialty, preds_DT, 1, seq(0.05,0.5,0.05))
+
+auc.simMetric(SM_DT)
+brier.simMetric(SM_DT)
 
