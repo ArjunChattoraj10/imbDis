@@ -4,7 +4,7 @@ source("class_def.R")
 
 ## to ensure call works
 SM1 = simMetric(c(1,1,1,0), c(0.1,0.2,0.3,0.4), 1, c(0.1,0.2,0.3,0.4))
-SM2 = simMetric(labels = c(1,1,1,0), probs = c(0.1,0.2,0.3,0.4), case = 1)
+SM2 = simMetric(labels = c(1,1,1,0), pred = c(0.1,0.2,0.3,0.4), case = 1)
 
 
 ## real function calls

@@ -2,13 +2,13 @@
 
 library(pROC)
 
-simMetric = function(labels, probs, case, bins = seq(0.1,0.5,0.1)){
+simMetric = function(labels, pred, case, bins = seq(0.05,0.5,0.05)){
     
     # check values
-    param_check(labels, probs, case, bins)
+    param_check(labels, pred, case, bins)
     
     # initialize the class via list object using provided arguments
-    obj = list(labels = labels, probs = probs, case = case, bins = bins)
+    obj = list(labels = labels, pred = pred, case = case, bins = bins)
     
     attr(obj, "class") = "simMetric" # sets the class
     
@@ -25,20 +25,20 @@ simMetric = function(labels, probs, case, bins = seq(0.1,0.5,0.1)){
     return(obj)
 }
 
-param_check = function(labels, probs, case, bins){
+param_check = function(labels, pred, case, bins){
     # function to check if arguments of a simMetric object are valid
     
     if(length(unique(labels)) != 2) 
         stop('\'labels\' may only have 2 distinct values.')
     
-    if(!is.numeric(probs))
-        stop('\'probs\' contains non-numeric values.')  
+    if(!is.numeric(pred))
+        stop('\'pred\' contains non-numeric values.')  
     
-    if(any(probs < 0 | probs > 1)) 
-        stop('At least one element of \'pred.probs\' is less than 0 or greater than 1.')
+    if(any(pred < 0 | pred > 1)) 
+        stop('At least one element of \'pred\' is less than 0 or greater than 1.')
     
-    if(length(labels) != length(probs))
-        stop('Length of \'labels\' does not match length of \'probs\'.')
+    if(length(labels) != length(pred))
+        stop('Length of \'labels\' does not match length of \'pred\'.')
     
     if(!case %in% labels)
         stop('Value of \'case\' is not present in \'labels\'.')
@@ -85,25 +85,25 @@ auc.simMetric = function(obj){
     # calculates the C-Statistic for specified frequency bins
     
     # define variables to reduce code clutter
-    probs = obj$probs
+    pred = obj$pred
     bins = obj$bins
     labels_01 = obj$labs_01 # necessary for proper functionality of roc()
     samp_size = obj$sample.size
     cases_list = obj$bin.caseSizes
     
-    ## subset labels and probs into only case and only not case
+    ## subset labels and pred into only case and only not case
     
     ### indices with case label
     ### ensures correspondence of labels and probabilities after subsetting
     case_i = which(labels_01 == 1)
     
-    ### subset labels and probs for case
+    ### subset labels and pred for case
     labels_case = labels_01[case_i]
-    probs_case = probs[case_i]
+    pred_case = pred[case_i]
     
-    ### subset labels and prons for not case
+    ### subset labels and pred for not case
     labels_control = labels_01[-case_i]
-    probs_control = probs[-case_i]
+    pred_control = pred[-case_i]
     
     ## compute returned values
     auroc = rep(0, length(bins))
@@ -116,26 +116,26 @@ auc.simMetric = function(obj){
         n_control = samp_size - n_cases
         
         # random sample of indices for case and non-case labels and probabilities
-        sub_i_case = sample(length(probs_case), n_cases)
-        sub_i_control = sample(length(probs_control), n_control)
+        sub_i_case = sample(length(pred_case), n_cases)
+        sub_i_control = sample(length(pred_control), n_control)
         
         # labels and probabilities organized as all elements corresponding to case
         # followed by all elements corresponding to control
         labs = c(labels_case[sub_i_case], labels_control[sub_i_control])    
-        probs = c(probs_case[sub_i_case], probs_control[sub_i_control])
+        probs = c(pred_case[sub_i_case], pred_control[sub_i_control])
         
         # shuffle labels and predictions
         # same indices used to subset ensures correspondence of 
         # labels and predictions after shuffling
         i_test = sample(length(labs))
         labs = labs[i_test]
-        probs = probs[i_test]
+        pred = pred[i_test]
         
         # calculate AUC and save results
         # Message "Setting levels" suppressed - occurs on every loop of ROC calculation
-        roc_i = suppressMessages(roc(labs, probs)) # default control = 0, case = 1
+        roc_i = suppressMessages(roc(labs, pred)) # default control = 0, case = 1
         auroc[i] = roc_i$auc
-        n_samps[i] = length(probs)
+        n_samps[i] = length(pred)
     }
     
     # return data frame
@@ -150,25 +150,25 @@ brier.simMetric = function(obj){
     # calculates the C-Statistic for specified frequency bins
     
     # define variables to reduce code clutter
-    probs = obj$probs
+    pred = obj$pred
     bins = obj$bins
     labels_01 = obj$labs_01 # necessary for proper functionality of roc()
     samp_size = obj$sample.size
     cases_list = obj$bin.caseSizes
     
-    ## subset labels and probs into only case and only not case
+    ## subset labels and pred into only case and only not case
     
     ### indices with case label
     ### ensures correspondence of labels and probabilities after subsetting
     case_i = which(labels_01 == 1)
     
-    ### subset labels and probs for case
+    ### subset labels and pred for case
     labels_case = labels_01[case_i]
-    probs_case = probs[case_i]
+    pred_case = pred[case_i]
     
-    ### subset labels and prons for not case
+    ### subset labels and pred for not case
     labels_control = labels_01[-case_i]
-    probs_control = probs[-case_i]
+    pred_control = pred[-case_i]
     
     ## compute returned values
     brier = rep(0, length(bins))
@@ -181,18 +181,18 @@ brier.simMetric = function(obj){
         n_control = samp_size - n_cases
         
         # random sample of indices for case and non-case labels and probabilities
-        sub_i_case = sample(length(probs_case), n_cases)
-        sub_i_control = sample(length(probs_control), n_control)
+        sub_i_case = sample(length(pred_case), n_cases)
+        sub_i_control = sample(length(pred_control), n_control)
         
         # labels and probabilities organized as all elements corresponding to case
         # followed by all elements corresponding to control
         labs = c(labels_case[sub_i_case], labels_control[sub_i_control])    
-        probs = c(probs_case[sub_i_case], probs_control[sub_i_control])
+        pred = c(pred_case[sub_i_case], pred_control[sub_i_control])
         
         # shuffle is not required since it is just a value 
-        # of individual observations
-        brier[i] = mean((probs - labs)^2)
-        n_samps[i] = length(probs)
+        # of individual observationspred
+        brier[i] = mean((pred - labs)^2)
+        n_samps[i] = length(pred)
     }
     
     # return data frame
@@ -209,25 +209,25 @@ munual_loss.simMetric = function(obj, f){
     # and must return a single value.
     
     # define variables to reduce code clutter
-    probs = obj$probs
+    pred = obj$pred
     bins = obj$bins
     labels_01 = obj$labs_01 # necessary for proper functionality of roc()
     samp_size = obj$sample.size
     cases_list = obj$bin.caseSizes
     
-    ## subset labels and probs into only case and only not case
+    ## subset labels and pred into only case and only not case
     
     ### indices with case label
     ### ensures correspondence of labels and probabilities after subsetting
     case_i = which(labels_01 == 1)
     
-    ### subset labels and probs for case
+    ### subset labels and pred for case
     labels_case = labels_01[case_i]
-    probs_case = probs[case_i]
+    pred_case = probs[case_i]
     
-    ### subset labels and prons for not case
+    ### subset labels and pred for not case
     labels_control = labels_01[-case_i]
-    probs_control = probs[-case_i]
+   pred_control = pred[-case_i]
     
     ## compute returned values
     metric = rep(0, length(bins))
@@ -240,24 +240,24 @@ munual_loss.simMetric = function(obj, f){
         n_control = samp_size - n_cases
         
         # random sample of indices for case and non-case labels and probabilities
-        sub_i_case = sample(length(probs_case), n_cases)
-        sub_i_control = sample(length(probs_control), n_control)
+        sub_i_case = sample(length(pred_case), n_cases)
+        sub_i_control = sample(length(pred_control), n_control)
         
         # labels and probabilities organized as all elements corresponding to case
         # followed by all elements corresponding to control
         labs = c(labels_case[sub_i_case], labels_control[sub_i_control])    
-        probs = c(probs_case[sub_i_case], probs_control[sub_i_control])
+        probs = c(pred_case[sub_i_case], pred_control[sub_i_control])
         
         # shuffle labels and predictions
         # same indices used to subset ensures correspondence of 
         # labels and predictions after shuffling
         i_test = sample(length(labs))
         labs = labs[i_test]
-        probs = probs[i_test]
+        pred = pred[i_test]
         
         # calculate metric value and save results
-        metric[i] = f(labs, probs)
-        n_samps[i] = length(probs)
+        metric[i] = f(labs, pred)
+        n_samps[i] = length(pred)
     }
     
     # return data frame
