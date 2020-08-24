@@ -132,7 +132,8 @@ auc.simMetric = function(obj){
         probs = probs[i_test]
         
         # calculate AUC and save results
-        roc_i = roc(labs, probs) # default control = 0, case = 1
+        # Message "Setting levels" suppressed - occurs on every loop of ROC calculation
+        roc_i = suppressMessages(roc(labs, probs)) # default control = 0, case = 1
         auroc[i] = roc_i$auc
         n_samps[i] = length(probs)
     }
