@@ -30,8 +30,37 @@ case = 1
 SM3 = simMetric(orig.labels, pred.probs, case)
 SM3$auc = auc(SM3)
 SM3$brier = brier(SM3)
+SM3$logLoss = logLoss(SM3)
 
 bins = seq(0.05,0.2,0.05)
 SM4 = simMetric(orig.labels, pred.probs, case, bins)
 SM4$auc = auc(SM4)
 SM4$brier = brier(SM4)
+SM4$logLoss = logLoss(SM4)
+
+# trying the generalized metric method - manualLoss
+
+# method 1: wrapper function
+custom_auc = function(labels, pred){
+    # A wrapper function around ROC
+    # Takes in as input the original class labels and prediction probabilities
+    # Return a float value of the Area Under The ROC
+    
+    roc = roc(labels, pred)
+    return(roc$auc)
+}
+
+SM4$custom_auc = manualLoss(SM4, custom_auc)
+
+# method 2: custom function
+custom_brier = function(labels, pred){
+    # a user-made function for the Brier score
+    # Takes in as input the original class labels and prediction probabilities
+    # Return a float value of the Bier score
+    
+    return(mean((pred - labels)^2))
+}
+
+SM4$custom_brier = manualLoss(SM4, custom_brier)
+
+
