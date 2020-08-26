@@ -1,9 +1,9 @@
 # define S3 class for new metric
 
 library(pROC)
-library(MLmetrics)
 
-simMetric = function(labels, pred, case, bins = seq(0.05,0.5,0.05)){
+
+imbDis = function(labels, pred, case, bins = seq(0.05,0.5,0.05)){
     
     # check values
     param_check(labels, pred, case, bins)
@@ -11,7 +11,7 @@ simMetric = function(labels, pred, case, bins = seq(0.05,0.5,0.05)){
     # initialize the class via list object using provided arguments
     obj = list(labels = labels, pred = pred, case = case, bins = bins)
     
-    attr(obj, "class") = "simMetric" # sets the class
+    attr(obj, "class") = "imbDis" # sets the class
     
     # define control and add to list
     obj$control = unique(labels[labels != case])
@@ -27,7 +27,7 @@ simMetric = function(labels, pred, case, bins = seq(0.05,0.5,0.05)){
 }
 
 param_check = function(labels, pred, case, bins){
-    # function to check if arguments of a simMetric object are valid
+    # function to check if arguments of a imbDis object are valid
     
     if(length(unique(labels)) != 2) 
         stop('\'labels\' may only have 2 distinct values.')
@@ -81,8 +81,8 @@ calc_samplesize = function(labels_01, bins){
 }
 
 auc = function(obj) UseMethod("auc")
-auc.simMetric = function(obj){
-    # function takes in an object of class simMetric
+auc.imbDis = function(obj){
+    # function takes in an object of class imbDis
     # calculates the C-Statistic for specified frequency bins
     
     # define variables to reduce code clutter
@@ -146,8 +146,8 @@ auc.simMetric = function(obj){
 # brier score:
 # BS = 1/n sum_i..n (p_i - o_i)^2
 brier = function(obj) UseMethod("brier")
-brier.simMetric = function(obj){
-    # function takes in an object of class simMetric
+brier.imbDis = function(obj){
+    # function takes in an object of class imbDis
     # calculates the C-Statistic for specified frequency bins
     
     # define variables to reduce code clutter
@@ -201,8 +201,8 @@ brier.simMetric = function(obj){
 }
 
 logLoss = function(obj) UseMethod("logLoss")
-logLoss.simMetric = function(obj){
-    # function takes in an object of class simMetric
+logLoss.imbDis = function(obj){
+    # function takes in an object of class imbDis
     # calculates the log loss for specified frequency bins
     
     # define variables to reduce code clutter
@@ -272,7 +272,7 @@ logLoss.simMetric = function(obj){
 }
 
 manualLoss = function(obj, f) UseMethod("manualLoss")
-manualLoss.simMetric = function(obj, f){
+manualLoss.imbDis = function(obj, f){
     # framework of metric calculation. 
     # performs all necessary pre-processing and
     # obtains the result of the provided discrimination metric for every loop

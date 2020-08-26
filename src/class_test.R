@@ -3,8 +3,8 @@ source("class_def.R")
 # Testing for simMetric
 
 ## to ensure call works
-SM1 = simMetric(c(1,1,1,0), c(0.1,0.2,0.3,0.4), 1, c(0.1,0.2,0.3,0.4))
-SM2 = simMetric(labels = c(1,1,1,0), pred = c(0.1,0.2,0.3,0.4), case = 1)
+imbD1 = imbDis(c(1,1,1,0), c(0.1,0.2,0.3,0.4), 1, c(0.1,0.2,0.3,0.4))
+imbD2 = imbDis(labels = c(1,1,1,0), pred = c(0.1,0.2,0.3,0.4), case = 1)
 
 
 ## real function calls
@@ -27,16 +27,16 @@ pred.probs[pred.probs > 1] = 0.95
 
 case = 1
 
-SM3 = simMetric(orig.labels, pred.probs, case)
-SM3$auc = auc(SM3)
-SM3$brier = brier(SM3)
-SM3$logLoss = logLoss(SM3)
+imbD3 = imbDis(orig.labels, pred.probs, case)
+imbD3$auc = auc(imbD3)
+imbD3$brier = brier(imbD3)
+imbD3$logLoss = logLoss(imbD3)
 
 bins = seq(0.05,0.2,0.05)
-SM4 = simMetric(orig.labels, pred.probs, case, bins)
-SM4$auc = auc(SM4)
-SM4$brier = brier(SM4)
-SM4$logLoss = logLoss(SM4)
+imbD4 = imbDis(orig.labels, pred.probs, case, bins)
+imbD4$auc = auc(imbD4)
+imbD4$brier = brier(imbD4)
+imbD4$logLoss = logLoss(imbD4)
 
 # trying the generalized metric method - manualLoss
 
