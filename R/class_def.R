@@ -1,16 +1,17 @@
-#' @title imbDis object
+#' @title imbDis - Imbalanced Discrimination
 #' 
 #' @description 
-#' imbDis - Imbalanced Discrimination.
-#' This function creates an object of type imbDis, an S3 Class. 
+#' This function creates an object of type \code{imbDis}, an S3 Class. 
 #' imbDis objects can be passed into the associated methods as arguments.
+#' Examples of associated methods are \code{auc}, \code{brier} and \code{logLoss}.
 #' 
-#' @param labels Vector of ground-truth labels
-#' @param pred Vector of predicted probabilities
+#' @param labels Vector of ground-truth labels.
+#' @param pred Vector of predicted probabilities.
 #' @param case An integer or string that is the case class. Must be a value in labels.
-#' @param bins Vector of different class imbalance frequencies. Default is seq(0.05, 0.5, 0.05)
-#' @return simMetric object
-
+#' @param bins Vector of different class imbalance frequencies. Default is seq(0.05, 0.5, 0.05).
+#' 
+#' @return A simMetric object - S3 class that contains the input parameters, standardized labels, 
+#'     and sample size.
 imbDis = function(labels, pred, case, bins = seq(0.05,0.5,0.05)){
     
     # check values
@@ -43,7 +44,6 @@ imbDis = function(labels, pred, case, bins = seq(0.05,0.5,0.05)){
 #' @param pred Vector of predicted probabilities
 #' @param case An integer or string that is the case class. Must be a value in labels.
 #' @param bins Vector of different class imbalance frequencies. Default is seq(0.05, 0.5, 0.05)
- 
 .param_check = function(labels, pred, case, bins){
     # function to check if arguments of a imbDis object are valid
     
@@ -77,10 +77,9 @@ imbDis = function(labels, pred, case, bins = seq(0.05,0.5,0.05)){
 #' @description 
 #' Helper function to convert labels vector to 0-1 labels. 1 corresponds to the case label.
 #' 
-#' @param labels Vector of ground-truth labels
+#' @param labels Vector of ground-truth labels.
 #' @param case An integer or string that is the case class. Must be a value in labels.
-#' @return Standardized labels vector
-
+#' @return Standardized labels vector.
 .standardizeLabels = function(labels, case){
     # converts a binary vector of labels  to a vector
     # where all case values are 1 and controls are 0
@@ -94,10 +93,9 @@ imbDis = function(labels, pred, case, bins = seq(0.05,0.5,0.05)){
 #' @description 
 #' Helper function to convert labels vector to 0-1 labels. 1 corresponds to the case label.
 #' 
-#' @param labels Vector of ground-truth labels
+#' @param labels Vector of ground-truth labels.
 #' @param case An integer or string that is the case class. Must be a value in labels.
-#' @return Standardised labels vector
-
+#' @return Standardised labels vector.
 .standardiseLabels = .standardizeLabels # alternate spelling
 
 #' @title Calculates the sample size
@@ -105,10 +103,9 @@ imbDis = function(labels, pred, case, bins = seq(0.05,0.5,0.05)){
 #' @description 
 #' Helper function to convert labels vector to 0-1 labels. 1 corresponds to the case label.
 #' 
-#' @param labels Vector of ground-truth labels
+#' @param labels Vector of ground-truth labels.
 #' @param case An integer or string that is the case class. Must be a value in labels.
-#' @return Sample size integer
- 
+#' @return Sample size integer.
 .calc_samplesize = function(labels_01, bins){
     ## total cases and controls in labels
     tot_cases = sum(labels_01)
@@ -126,21 +123,21 @@ imbDis = function(labels, pred, case, bins = seq(0.05,0.5,0.05)){
     return(samp_size)
 }
 
-#' @title Area under the Receiver Operator Curve (ROC AUC)
-auc = function(obj) UseMethod("auc")
+#' @title Area Under the Receiver Operator Curve (ROC AUC)
+#' @description Generic function for the ROC AUC calculation.
+auc = function(obj) UseMethod("auc", obj)
 
-#' @title Area under the Receiver Operator Curve (ROC AUC)
+#' @title Area Under the Receiver Operator Curve (ROC AUC)
 #' 
 #' @description 
 #' Calculates the Area under the Receiver Operator Curve (ROC AUC) for each bin frequency 
 #' with the same sample size.
 #' 
-#' @param obj An object of type imbDis
-#' @return data.frame with columns: bins, AUC, sample size
- 
+#' @param obj An imbDis object.
+#' @return data.frame with columns: bins, AUC, sample size.
 auc.imbDis = function(obj){
     
-    # define variables to reduce code clutter
+    # define variables to reduce code clutter'
     pred = obj$pred
     bins = obj$bins
     labels_01 = obj$labs_01 # necessary for proper functionality of roc()
@@ -199,7 +196,8 @@ auc.imbDis = function(obj){
 }
 
 #' @title Brier Score
-brier = function(obj) UseMethod("brier")
+#' @description Generic function for the Brier Score calculation
+brier = function(obj) UseMethod("brier", obj)
 
 #' @title Brier Score
 #' 
@@ -207,9 +205,8 @@ brier = function(obj) UseMethod("brier")
 #' Calculates the Brier score for each bin frequency 
 #' with the same sample size.
 #' 
-#' @param obj An object of type imbDis
-#' @return data.frame with columns: bins, Brier score, sample size
- 
+#' @param obj an object of class inheriting from "imbDis".
+#' @return data.frame with columns: bins, Brier score, sample size.
 brier.imbDis = function(obj){
     
     # define variables to reduce code clutter
@@ -262,8 +259,9 @@ brier.imbDis = function(obj){
     return(data.frame(bins, brier, n_samps))
 }
 
-#' @title Log Loss/Binary Cross-Entropy
-logLoss = function(obj) UseMethod("logLoss")
+#' @title Log Loss/Binary Cross-Entropy.
+#' @description Generic function for the Log Loss calculation.
+logLoss = function(obj) UseMethod("logLoss", obj)
 
 #' @title Log Loss/Binary Cross-Entropy
 #' 
@@ -271,9 +269,8 @@ logLoss = function(obj) UseMethod("logLoss")
 #' Calculates the log loss for each bin frequency 
 #' with the same sample size.
 #' 
-#' @param obj An object of type imbDis
+#' @param obj an object of class inheriting from "imbDis".
 #' @return data.frame with columns: bins, log loss, sample size
-
 logLoss.imbDis = function(obj){
     
     # define variables to reduce code clutter
@@ -341,7 +338,8 @@ logLoss.imbDis = function(obj){
 }
 
 #' @title Other metrics framework
-manualLoss = function(obj, f) UseMethod("manualLoss")
+#' @description Generic function for Other user-input metric calculation.
+manualMetric = function(obj) UseMethod("manualMetric", obj)
 
 #' @title Other metrics framework
 #' 
@@ -349,11 +347,10 @@ manualLoss = function(obj, f) UseMethod("manualLoss")
 #' Calculates a user-input metric for each bin frequency with the same sample size.
 #' Allows imbDis metric calculation using the predicted labels instead of probabilities.
 #' 
-#' @param obj An object of type imbDis
-#' @param f A function that must be of the format f(labels, preds)
-#' @return data.frame with columns: bins, metric, sample size
-
-manualLoss.imbDis = function(obj, f){
+#' @param obj an object of class inheriting from "imbDis".
+#' @param f A function that must be of the format f(labels, preds).
+#' @return data.frame with columns: bins, metric, sample size.
+manualMetric.imbDis = function(obj, f){
     # framework of metric calculation. 
     # performs all necessary pre-processing and
     # obtains the result of the provided discrimination metric for every loop

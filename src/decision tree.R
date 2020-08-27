@@ -2,7 +2,6 @@
 
 # Ensure presence of file dependencies
 source("train_test.R") # Performs the train/test split
-source("class_def.R")  # Loads the class into the environment
 
 library(caret)
 library(rattle)
@@ -29,14 +28,15 @@ names(res_DT)[1] = "orig"
 write.csv(res_DT, "../data/res_DT.csv", row.names = FALSE)
 
 # Define classes
-SM_DT_7 = simMetric(test_dat$y, preds_DT_7, 1)
-SM_DT_all = simMetric(test_dat$y, preds_DT_all, 1)
+imbD_DT_7 = simMetric(test_dat$y, preds_DT_7, 1)
+imbD_DT_all = simMetric(test_dat$y, preds_DT_all, 1)
 
 # c-statistic and F1 for 7 preds DT
-auc.simMetric(SM_DT_7)
-brier.simMetric(SM_DT_7)
+auc.imbDis(imbD_DT_7)
+brier.imbDis(imbD_DT_7)
+logLoss.imbDis(imbD_DT_7)
 
 # c-statistic and F1 for all preds DT
-auc.simMetric(SM_DT_all)
-brier.simMetric(SM_DT_all)
-
+auc.imbDis(imbD_DT_all)
+brier.imbDis(imbD_DT_all)
+logLoss.imbDis(imbD_DT_all)

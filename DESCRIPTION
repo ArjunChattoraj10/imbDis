@@ -1,0 +1,13 @@
+Package: imbDis
+Type: Package
+Title: Imbalanced Discrimination
+Version: 0.1.0
+Author: Arjun Chattoraj
+Maintainer: Arjun Chattoraj <ac2582@cornell.edu>
+Description: An S3 class that calculates discrimination metrics for binary classification models
+    by taking as input the original class labels and prediction probabilities.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Imports: pROC

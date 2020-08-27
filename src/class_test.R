@@ -1,4 +1,4 @@
-source("class_def.R")
+library(imbDis)
 
 # Testing for simMetric
 
@@ -28,15 +28,15 @@ pred.probs[pred.probs > 1] = 0.95
 case = 1
 
 imbD3 = imbDis(orig.labels, pred.probs, case)
-imbD3$auc = auc(imbD3)
-imbD3$brier = brier(imbD3)
-imbD3$logLoss = logLoss(imbD3)
+imbD3$auc = auc.imbDis(imbD3)
+imbD3$brier = brier.imbDis(imbD3)
+imbD3$logLoss = logLoss.imbDis(imbD3)
 
 bins = seq(0.05,0.2,0.05)
 imbD4 = imbDis(orig.labels, pred.probs, case, bins)
-imbD4$auc = auc(imbD4)
-imbD4$brier = brier(imbD4)
-imbD4$logLoss = logLoss(imbD4)
+imbD4$auc = auc.imbDis(imbD4)
+imbD4$brier = brier.imbDis(imbD4)
+imbD4$logLoss = logLoss.imbDis(imbD4)
 
 # trying the generalized metric method - manualLoss
 
@@ -46,11 +46,11 @@ custom_auc = function(labels, pred){
     # Takes in as input the original class labels and prediction probabilities
     # Return a float value of the Area Under The ROC
     
-    roc = roc(labels, pred)
+    roc = pROC::roc(labels, pred)
     return(roc$auc)
 }
 
-SM4$custom_auc = manualLoss(SM4, custom_auc)
+imbD4$custom_auc = manualMetric.imbDis(imbD4, custom_auc)
 
 # method 2: custom function
 custom_brier = function(labels, pred){
@@ -61,6 +61,4 @@ custom_brier = function(labels, pred){
     return(mean((pred - labels)^2))
 }
 
-SM4$custom_brier = manualLoss(SM4, custom_brier)
-
-
+imbD4$custom_brier = manualMetric.imbDis(imbD4, custom_brier)
