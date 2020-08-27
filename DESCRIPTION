@@ -6,7 +6,7 @@ Author: Arjun Chattoraj
 Maintainer: Arjun Chattoraj <ac2582@cornell.edu>
 Description: An S3 class that calculates discrimination metrics for binary classification models
     by taking as input the original class labels and prediction probabilities.
-License: What license is it under?
+License: Apache License, Version 2.0
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
