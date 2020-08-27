@@ -7,8 +7,8 @@
 #' 
 #' @param labels Vector of ground-truth labels.
 #' @param pred Vector of predicted probabilities.
-#' @param case An integer or string that is the case class. Must be a value in labels.
-#' @param bins Vector of different class imbalance frequencies. Default is seq(0.05, 0.5, 0.05).
+#' @param case A value present in the \code{labels} argument, that denotes the case class label.
+#' @param bins Vector of class imbalance frequencies. Values must be larger than 0 and smaller than 1. Default is seq(0.05, 0.5, 0.05).
 #' 
 #' @return A simMetric object - S3 class that contains the input parameters, standardized labels, 
 #'     and sample size.
