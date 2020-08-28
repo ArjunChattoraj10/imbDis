@@ -6,6 +6,13 @@
 \usage{
 auc(obj)
 }
+\arguments{
+\item{obj}{An imbDis object.}
+}
+\value{
+data.frame with columns: bins, AUC, sample size.
+}
 \description{
-Generic function for the ROC AUC calculation.
+Calculates the Area under the Receiver Operator Curve (ROC AUC) for each bin frequency 
+with the same sample size.
 }

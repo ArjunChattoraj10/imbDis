@@ -2,10 +2,17 @@
 % Please edit documentation in R/metrics.R
 \name{logLoss}
 \alias{logLoss}
-\title{Log Loss/Binary Cross-Entropy.}
+\title{Log Loss/Binary Cross-Entropy}
 \usage{
 logLoss(obj)
 }
+\arguments{
+\item{obj}{an object of class inheriting from "imbDis".}
+}
+\value{
+data.frame with columns: bins, log loss, sample size.
+}
 \description{
-Generic function for the Log Loss calculation.
+Calculates the log loss for each bin frequency 
+with the same sample size.
 }

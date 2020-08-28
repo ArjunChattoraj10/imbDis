@@ -6,6 +6,13 @@
 \usage{
 brier(obj)
 }
+\arguments{
+\item{obj}{an object of class inheriting from "imbDis".}
+}
+\value{
+data.frame with columns: bins, Brier score, sample size.
+}
 \description{
-Generic function for the Brier Score calculation
+Calculates the Brier score for each bin frequency 
+with the same sample size.
 }

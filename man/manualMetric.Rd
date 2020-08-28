@@ -4,8 +4,17 @@
 \alias{manualMetric}
 \title{Other metrics framework}
 \usage{
-manualMetric(obj)
+manualMetric(obj, f)
+}
+\arguments{
+\item{obj}{an object of class inheriting from "imbDis".}
+
+\item{f}{A function that must be of the format f(labels, preds).}
+}
+\value{
+data.frame with columns: bins, metric, sample size.
 }
 \description{
-Generic function for Other user-input metric calculation.
+Calculates a user-input metric for each bin frequency with the same sample size.
+Allows imbDis metric calculation using the predicted labels instead of probabilities.
 }

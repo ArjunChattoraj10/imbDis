@@ -1,7 +1,11 @@
-# metrics file
-
 #' @title Area Under the Receiver Operator Curve (ROC AUC)
-#' @description Generic function for the ROC AUC calculation.
+#' 
+#' @description 
+#' Calculates the Area under the Receiver Operator Curve (ROC AUC) for each bin frequency 
+#' with the same sample size.
+#' 
+#' @param obj An imbDis object.
+#' @return data.frame with columns: bins, AUC, sample size.
 #' @export
 auc = function(obj) UseMethod("auc", obj)
 
@@ -75,7 +79,13 @@ auc.imbDis = function(obj){
 }
 
 #' @title Brier Score
-#' @description Generic function for the Brier Score calculation
+#' 
+#' @description 
+#' Calculates the Brier score for each bin frequency 
+#' with the same sample size.
+#' 
+#' @param obj an object of class inheriting from "imbDis".
+#' @return data.frame with columns: bins, Brier score, sample size.
 #' @export
 brier = function(obj) UseMethod("brier", obj)
 
@@ -140,8 +150,14 @@ brier.imbDis = function(obj){
     return(data.frame(bins, brier, n_samps))
 }
 
-#' @title Log Loss/Binary Cross-Entropy.
-#' @description Generic function for the Log Loss calculation.
+#' @title Log Loss/Binary Cross-Entropy
+#' 
+#' @description 
+#' Calculates the log loss for each bin frequency 
+#' with the same sample size.
+#' 
+#' @param obj an object of class inheriting from "imbDis".
+#' @return data.frame with columns: bins, log loss, sample size.
 #' @export
 logLoss = function(obj) UseMethod("logLoss", obj)
 
@@ -221,9 +237,16 @@ logLoss.imbDis = function(obj){
 }
 
 #' @title Other metrics framework
-#' @description Generic function for Other user-input metric calculation.
+#' 
+#' @description 
+#' Calculates a user-input metric for each bin frequency with the same sample size.
+#' Allows imbDis metric calculation using the predicted labels instead of probabilities.
+#' 
+#' @param obj an object of class inheriting from "imbDis".
+#' @param f A function that must be of the format f(labels, preds).
+#' @return data.frame with columns: bins, metric, sample size.
 #' @export
-manualMetric = function(obj) UseMethod("manualMetric", obj)
+manualMetric = function(obj, f) UseMethod("manualMetric", obj)
 
 #' @title Other metrics framework
 #' 
