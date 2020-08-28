@@ -25,3 +25,9 @@ To define the object, run the following command:
 imbDis(labels, pred, case, bin)
 ```
 
+## License
+
+Package is under Apache License, Version 2.0 with information in LICENSE.txt
+
+---
+
