@@ -24,3 +24,17 @@ This function creates an object of type \code{imbDis}, an S3 Class.
 imbDis objects can be passed into the associated methods as arguments.
 Examples of associated methods are \code{auc}, \code{brier} and \code{logLoss}.
 }
+\examples{
+# using the mtcars dataset
+LR = glm(vs ~ mpg + hp + wt, data = mtcars, family = "binomial")
+preds = predict(LR, mtcars, type = "response")  # equiv. to LR$fitted.values
+
+# define the imbDis object
+imbD = imbDis(mtcars$vs, preds, 1, seq(0.1, 0.9, 0.1))
+
+# metric results
+auc(imbD)
+brier(imbD)
+logLoss(imbD)
+
+}

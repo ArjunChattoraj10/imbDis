@@ -13,6 +13,19 @@
 #' @return A simMetric object - S3 class that contains the input parameters, standardized labels, 
 #'     and sample size.
 #' @export
+#' @examples 
+#' # using the mtcars dataset
+#' LR = glm(vs ~ mpg + hp + wt, data = mtcars, family = "binomial")
+#' preds = predict(LR, mtcars, type = "response")  # equiv. to LR$fitted.values
+#' 
+#' # define the imbDis object
+#' imbD = imbDis(mtcars$vs, preds, 1, seq(0.1, 0.9, 0.1))
+#' 
+#' # metric results
+#' auc(imbD)
+#' brier(imbD)
+#' logLoss(imbD)
+#' 
 imbDis = function(labels, pred, case, bins = seq(0.05,0.5,0.05)){
     
     # check values

@@ -3,7 +3,7 @@ Type: Package
 Title: Imbalanced Discrimination
 Version: 0.1.0
 Author: Arjun Chattoraj
-Maintainer: Arjun Chattoraj <ac2582@cornell.edu>
+Maintainer: Arjun Chattoraj <ac2582@cornell.edu>, Erick R. Scott <erick.scott@mssm.edu>
 Description: An S3 class that calculates discrimination metrics for binary classification models
     by taking as input the original class labels and prediction probabilities.
 License: Apache License, Version 2.0
