@@ -18,7 +18,7 @@ In the world of Machine Learning, many applications rely on Binary Classificatio
 
 However, one of the issues that exists is a lack of tools that measure the quality of the model for different populations. That is **when the proportion of the outcome classes are different from the dataset that the model was trained on**. 
 
-**imbDis** is a solution to that. It varies the class imbalance and calculates discrimination metrics for each imbalance frequency. The discrimination metrics may be a pre-defined method within `imbDis` - such as AUC, Brier and Log Loss, or can be other functions from any package or user-defined.
+**imbDis** is a solution to that. It varies the class imbalance and calculates discrimination metrics for each imbalance frequency. The discrimination metrics may be a pre-defined method within `imbDis`, or can be other functions from any package or user-defined.
 
 ## Usage
 
