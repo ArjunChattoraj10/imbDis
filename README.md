@@ -9,7 +9,7 @@ An S3 Class object that creates subset of the testing set labels and calculate v
 Use the following code to install the package from Github. You will need the *devtools* package:
 
 ```R
-devtools::install_github("https://github.com/ArjunChattoraj10/imbDis")
+devtools::install_github("ArjunChattoraj10/imbDis", ref = "dev")
 ```
 
 ## Motivation
@@ -31,7 +31,7 @@ To build the class, use the constructor function `imbDis()`. This function has 4
 
 To define the object, run the following command:
 
-```
+```R
 imbDis(labels, pred, case, bin)
 ```
 
