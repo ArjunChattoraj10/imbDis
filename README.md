@@ -4,6 +4,14 @@
 
 An S3 Class object that creates subset of the testing set labels and calculate various discrimination metric, either built-in or user-defined, maintaining a consistent sample size for all metrics and bin frequencies.
 
+## Installation
+
+Use the following code to install the package from Github. You will need the *devtools* package:
+
+```R
+devtools::install_github("https://github.com/ArjunChattoraj10/imbDis")
+```
+
 ## Motivation
 
 In the world of Machine Learning, many applications rely on Binary Classification algorithms, which answer questions such as, *“Is that symbol on the road a stop sign?”*, *“Will the company make a profit or a loss this quarter?”*, or *“Is the patient at risk of a heart attack?”.* Logistic Regression, Support Vector Machines, Decision Trees, Random Forests and Neural Networks are a few examples of Binary Classifiers, and their effectiveness is measured via various discrimination metrics, such as the ROC AUC, Brier Score, Cross-Entropy loss, etc. 
