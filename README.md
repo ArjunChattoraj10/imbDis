@@ -73,7 +73,7 @@ imbD = imbDis(mtcars$vs, preds, 1, seq(0.1, 0.9, 0.1))
 Now we can calculate the metrics for this object. Let's calculate the *Brier Score* here:
 
 ```R
-brier(imb)
+brier(imbD)
 ```
 
 The output is below. There is randomization involved so values may not be the same as below:
