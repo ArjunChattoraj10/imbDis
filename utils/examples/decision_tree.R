@@ -1,12 +1,12 @@
 # Decision Tree Classification
 
-# repo is the working directory
-# Ensure presence of file dependencies
-source("src/train_test.R") # Performs the train/test split
-
+# Load caret, rattle and imbDis
 library(caret)
 library(rattle)
 library(imbDis)
+
+# Ensure presence of file dependencies - train/test split data
+source("utils/examples/train_test.R") 
 
 set.seed(225)
 
@@ -30,18 +30,18 @@ preds_DT_all = predict(dec_tree_all$finalModel, test_dat)[,2]
 
 # res_DT = data.frame(test_dat$y, preds_DT_7, preds_DT_all)
 # names(res_DT)[1] = "orig"
-# write.csv(res_DT, "data/res_DT.csv", row.names = FALSE)
+# write.csv(res_DT, "utils/data/res_DT.csv", row.names = FALSE)
 
 # Define classes
 imbD_DT_7 = imbDis(test_dat$y, preds_DT_7, 1)
 imbD_DT_all = imbDis(test_dat$y, preds_DT_all, 1)
 
 # c-statistic and F1 for 7 preds DT
-auc.imbDis(imbD_DT_7)
-brier.imbDis(imbD_DT_7)
-logLoss.imbDis(imbD_DT_7)
+auc(imbD_DT_7)
+brier(imbD_DT_7)
+logLoss(imbD_DT_7)
 
 # c-statistic and F1 for all preds DT
-auc.imbDis(imbD_DT_all)
-brier.imbDis(imbD_DT_all)
-logLoss.imbDis(imbD_DT_all)
+auc(imbD_DT_all)
+brier(imbD_DT_all)
+logLoss(imbD_DT_all)

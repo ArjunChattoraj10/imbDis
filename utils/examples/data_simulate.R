@@ -3,11 +3,9 @@
 # Data to be simulated:
     
 # Response:
-    
 ## Binary (0,1) : 20% Class imbalance
 
 # Covariates: 10
-
 ## x1: Continuous - Normal(0,1)
 ## x2: Continuous - Normal(0,1)
 ## x3: Continuous -  Normal(0,1)
@@ -41,25 +39,7 @@ x8 = rbinom(n_sim, 1, 0.4)
 x9 = rnorm(n_sim)
 x10 = rnorm(n_sim)
 
-# coefs = rnorm(15, -1, 1)
-# coefs
-# 
-# i = 1
-# b0 = coefs[i];  i = i+1
-# b1 = coefs[i];  i = i+1
-# b2 = coefs[i];  i = i+1
-# b3 = coefs[i];  i = i+1
-# b4 = coefs[i];  i = i+1
-# b5 = coefs[i];  i = i+1
-# b6 = coefs[i];  i = i+1
-# b7 = coefs[i];  i = i+1
-# b8 = coefs[i];  i = i+1
-# b9 = coefs[i];  i = i+1
-# b10 = coefs[i]; i = i+1
-# b11 = coefs[i]; i = i+1
-# b12 = coefs[i]; i = i+1
-# b13 = coefs[i]; i = i+1
-# b14 = coefs[i]
+# Set coefficients - chosen randomly
 
 b0 = -0.8
 b1 = 0.17
@@ -114,4 +94,6 @@ sim_dat = data.frame(y,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10)
 rm(b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,
    y,x1,x2,x3,x4,x5,x6,x7,x8,x9,x10)
 
-# write.csv(sim_dat, file = "simulated_data_arjun.csv", row.names = FALSE)
+# working directory is repo base
+fp = "utils/data/simulated_data.csv"
+write.csv(sim_dat, file = fp, row.names = FALSE)

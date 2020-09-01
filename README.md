@@ -91,9 +91,34 @@ The output is below. There is randomization involved so values may not be the sa
 9  0.9 0.05096148      16
 ```
 
+## More Examples
+
+More examples are within the *utils* directory of this repository. Within it, you will find the folder called *examples*. In *examples*, there are multiple .R files that simulate data, split into training/testing sets, train models and predict results, which are then evaluated using *imbDis*.
+
+The files present are:
+
+- *data_simulate.R*: This file simulates data from a logistic regression model. There are 10 covariates: some are linears, some have interactions and others are polynomial. Some plots are present to show how the data is distributed. The simulated data is saved in the *data* folder in *utils* under the name *simulated_data.csv*, a comma-separated data file.
+
+- *train_test.R*: A file that reads in the simulated data and splits it such that 70% of it is the training and 30% is the testing set.
+
+- *logistic_regression.R*, *decision_tree.R* & *random_forest.R*: These three files train Logistic Regression models, Decision Tree models and Random Forest models respectively. Each file trains multiple models using different subsets of the covariates. The prediction results from each model is saved in comma-separated value files within the *data* directory: *res_LR.R*, *res_DT.R* and *res_RF.R*.
+
+  Since Decision Trees and Random Forests determine interaction and non-linearity via their algorithms, the files using those have two distinct models:
+
+  - One using only 7 predictors.
+  - One using all 10 predictors.
+
+  However, Logistic Regression requires specification of non-linear terms. So, its file has three different models:
+
+  - One using only 7 predictors on a linear scale.
+  - One using all 10 predictors on a linear scale.
+  - One using all 10 predictors, as well as interactions and polynomials.
+
+  The last model is the model specification used to simulate the data. Thus, it is expected to perform the best out of all 7 models.  
+
 ## License
 
-Package is under Apache License, Version 2.0 with information in *LICENSE.txt* 
+Package is under Apache License, Version 2.0. Refer to *LICENSE.txt* for additional information.
 
 ---
 
