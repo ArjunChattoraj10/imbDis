@@ -6,8 +6,7 @@ library(imbDis)
 imbD1 = imbDis(c(1,1,1,0), c(0.1,0.2,0.3,0.4), 1, c(0.1,0.2,0.3,0.4))
 imbD2 = imbDis(labels = c(1,1,1,0), pred = c(0.1,0.2,0.3,0.4), case = 1)
 
-
-## real function calls
+## more realistic calls
 
 set.seed(34)
 n = 1000

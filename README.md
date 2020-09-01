@@ -9,7 +9,7 @@ An S3 Class object that creates subset of the testing set labels and calculate v
 Use the following code to install the package from Github. You will need the *devtools* package:
 
 ```R
-devtools::install_github("ArjunChattoraj10/imbDis", ref = "dev")
+devtools::install_github("ArjunChattoraj10/imbDis")
 ```
 
 ## Motivation
