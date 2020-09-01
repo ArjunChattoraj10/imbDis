@@ -33,7 +33,7 @@ x6 = rbinom(n_sim, 1, 0.7)
 
 # Interaction 
 x7 = rnorm(n_sim)
-x8 = rbinom(n_sim, 1, 0.4)
+x8 = rnorm(n_sim)
 
 # Non-linear
 x9 = rnorm(n_sim)
@@ -48,9 +48,9 @@ b3 = -1.12
 b4 = -0.84
 b5 = 0.71
 b6 = -0.61
-b7 = -1.74
+b7 = 0.56
 b8 = -0.36
-b9 = 0.15
+b9 = 1.96
 b10 = -1.24
 b11 = -0.18
 b12 = 0.88
@@ -67,7 +67,7 @@ logit = b0 +                                    # intercept
         b5*x5 +                                 # categorical
         b6*x6 +                                 # categorical
         b7*x7 +                                 # continuous - interaction
-        b8*x8 +                                 # categorical - interaction
+        b8*x8 +                                 # continuous - interaction
         b9*x7*x8 +
         b10*x9 + b11*x9^2 +                     # continuous - non-linear - quadratic
         b12*x10 + b13*x10^2 + b14*x10^3         # continuous - non-linear - cubic
