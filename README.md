@@ -27,7 +27,7 @@ To build the class, use the constructor function `imbDis()`. This function has 4
 - `labels`: A vector of the ground-truth class labels.
 - `pred`: A vector of values corresponding to predictions. These values should be probabilities, but may be predicted labels as well.
 - `case`: A value present in the `labels` argument, that denotes the case class label.
-- `bin`: A vector of values (larger than 0 and smaller than 1) that represent the different class imbalance frequencies.  It has a default value of `seq(0.05, 0.5, 0.05)` which is a vector of values from 0.05 to 0.5 separated by 0.05.
+- `bin`: A vector of values (larger than 0 and smaller than 1) that represent the different relative frequencies of the case class. It has a default value of `seq(0.05, 0.5, 0.05)` which is a vector of values from 0.05 (5%) to 0.5 (50%) separated by 0.05.
 
 To define the object, run the following command:
 
