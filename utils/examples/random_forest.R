@@ -33,12 +33,12 @@ preds_RF_all = predict(RF_all$finalModel, test_dat, type = "prob")[,2]
 imbD_RF_7 = imbDis(test_dat$y, preds_RF_7, 1)
 imbD_RF_all = imbDis(test_dat$y, preds_RF_all, 1)
 
-# c-statistic and F1 for 7 preds RF
+# Metrics for 7 preds RF
 auc(imbD_RF_7)
 brier(imbD_RF_7)
 logLoss(imbD_RF_7)
 
-# c-statistic and F1 for all preds RF
+# Metrics for all preds RF
 auc(imbD_RF_all)
 brier(imbD_RF_all)
 logLoss(imbD_RF_all)

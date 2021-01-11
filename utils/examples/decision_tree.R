@@ -36,12 +36,12 @@ preds_DT_all = predict(dec_tree_all$finalModel, test_dat)[,2]
 imbD_DT_7 = imbDis(test_dat$y, preds_DT_7, 1)
 imbD_DT_all = imbDis(test_dat$y, preds_DT_all, 1)
 
-# c-statistic and F1 for 7 preds DT
+# Metrics for 7 preds DT
 auc(imbD_DT_7)
 brier(imbD_DT_7)
 logLoss(imbD_DT_7)
 
-# c-statistic and F1 for all preds DT
+# Metrics for all preds DT
 auc(imbD_DT_all)
 brier(imbD_DT_all)
 logLoss(imbD_DT_all)

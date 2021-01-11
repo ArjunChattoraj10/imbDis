@@ -39,26 +39,26 @@ preds_LR_full = predict(LR_full, test_dat, type = "response")
 # optional - save the files to csv within data directory
 # uncomment code to run
 
-res_LR = data.frame(test_dat$y, preds_LR_7, preds_LR_lin, preds_LR_full)
-names(res_LR)[1] = "orig"
-write.csv(res_LR, "utils/data/res_LR.csv", row.names = FALSE)
+# res_LR = data.frame(test_dat$y, preds_LR_7, preds_LR_lin, preds_LR_full)
+# names(res_LR)[1] = "orig"
+# write.csv(res_LR, "utils/data/res_LR.csv", row.names = FALSE)
 
 # Define classes
 imbD_LR_7 = imbDis(test_dat$y, preds_LR_7, 1)
 imbD_LR_lin = imbDis(test_dat$y, preds_LR_lin, 1)
 imbD_LR_full = imbDis(test_dat$y, preds_LR_full, 1)
 
-# c-statistic and F1 for 7 preds LR
+# Metrics for 7 preds LR
 auc(imbD_LR_7)
 brier(imbD_LR_7)
 logLoss(imbD_LR_7)
 
-# c-statistic and F1 for all preds linear LR
+# Metrics for all preds linear LR
 auc(imbD_LR_lin)
 brier(imbD_LR_lin)
 logLoss(imbD_LR_lin)
 
-# c-statistic and F1 for all preds full LR
+# Metrics for all preds full LR
 auc(imbD_LR_full)
 brier(imbD_LR_full)
 logLoss(imbD_LR_full)
