@@ -1,8 +1,7 @@
 # Decision Tree Classification
 
-# Load caret, rattle and imbDis
+# Load caret and imbDis
 library(caret)
-library(rattle)
 library(imbDis)
 
 # Ensure presence of file dependencies - train/test split data
@@ -12,11 +11,9 @@ set.seed(225)
 
 # decision tree with 7 predictors
 dec_tree_7 = train(factor(y) ~ x1+x2+x3+x4+x5+x6+x7, data = train_dat, method = "rpart")
-fancyRpartPlot(dec_tree_7$finalModel, palettes = c("Reds","Greens"))
 
 # decision tree with all predictors
 dec_tree_all = train(factor(y) ~ ., data = train_dat, method = "rpart")
-fancyRpartPlot(dec_tree_all$finalModel, palettes = c("Reds","Greens"))
 
 # obtain predicted probabilities and labels - 7 preds
 # col 1 is for label 0, col 2 is for label 1
