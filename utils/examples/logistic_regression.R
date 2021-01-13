@@ -27,13 +27,13 @@ null_lr = glm(y ~ 1, train_dat, family = binomial)
 1 - logLik(LR_lin)/logLik(null_lr)
 1 - logLik(LR_full)/logLik(null_lr)
 
-# obtain predicted probabilities and labels - 7 preds
+# obtain predicted probabilities - 7 preds
 preds_LR_7 = predict(LR_7, test_dat, type = "response")
 
-# obtain predicted probabilities and labels - all preds linear
+# obtain predicted probabilities - all preds linear
 preds_LR_lin = predict(LR_lin, test_dat, type = "response")
 
-# obtain predicted probabilities and labels - all preds full
+# obtain predicted probabilities - all preds full
 preds_LR_full = predict(LR_full, test_dat, type = "response")
 
 # optional - save the files to csv within data directory

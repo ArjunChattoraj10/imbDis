@@ -16,10 +16,10 @@ RF_7 = train(factor(y) ~ x1+x2+x3+x4+x5+x6+x7, data = train_dat, method = "rf", 
 # random forest with all predictors
 RF_all = train(factor(y) ~ ., data = train_dat, method = "rf", trControl = tc)
 
-# obtain predicted probabilities and labels - 7 preds
+# obtain predicted probabilities - 7 preds
 preds_RF_7 = predict(RF_7$finalModel, test_dat, type = "prob")[,2]
 
-# obtain predicted probabilities and labels - all preds
+# obtain predicted probabilities - all preds
 preds_RF_all = predict(RF_all$finalModel, test_dat, type = "prob")[,2]
 
 # optional - save the files to csv within data directory
